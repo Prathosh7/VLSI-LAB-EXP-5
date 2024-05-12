@@ -1,14 +1,13 @@
 # VLSI-LAB-EXP-5
 SIMULATION AND IMPLEMENTATION OF FINITE STATE MACHINE
 
-AIM: To simulate and synthesis finite state machine using Xilinx ISE.
+# AIM: 
+To simulate and synthesis finite state machine using Vivado 2023.2.
 
-**APPARATUS REQUIRED: **
+# APPARATUS REQUIRED: 
+Vivado 2023.2
 
-Xilinx 14.7 
-Spartan6 FPGA
-
-**PROCEDURE: **
+# PROCEDURE:
 STEP:1 Start the Xilinx navigator, Select and Name the New project.
 STEP:2 Select the device family, device, package and speed. 
 STEP:3 Select new source in the New Project and select Verilog Module as the Source type. 
@@ -22,20 +21,84 @@ STEP:10 Double click on the Implement Design and double click on the Generate Pr
 STEP:11 On the board, by giving required input, the LEDs starts to glow light, indicating the output.
 STEP:12 Load the Bit file into the SPARTAN 6 FPGA 
 
-Logic Diagram :
+# Logic Diagram :
 
 ![image](https://github.com/navaneethans/VLSI-LAB-EXP-5/assets/6987778/34ec5d63-2b3b-4511-81ef-99f4572d5869)
 
 
-VERILOG CODE:
+# VERILOG CODE:
+```
+module fsm(clk, rst, x, z);
 
-----Type Verilog Code
+input clk, rst, x;
 
-OUTPUT:
+output z;
 
------Place a Waveform Generated from Xilinx ISE------------
+reg [2:1] present_state, NEXT_STATE;
 
-RESULT:
+parameter S0=2'b00, S1=2'b01, S2=2'b10, S3=2'b11;
+
+always@(x,present_state)
+
+case(present_state)
+
+S0: if(x)
+
+NEXT_STATE=S1;
+
+else
+
+NEXT_STATE=S0;
+
+S1: if(x)
+
+NEXT_STATE=S1;
+
+else
+
+NEXT_STATE=S2;
+
+S2: if(x)
+
+NEXT_STATE=S3;
+
+else
+
+NEXT_STATE=S0;
+
+S3: if(x)
+
+NEXT_STATE=S1;
+
+else
+
+NEXT_STATE=S2;
+
+endcase
+
+always@(negedge rst, posedge clk)
+
+if(rst)
+
+present_state<=S0;
+
+else
+
+present_state<=NEXT_STATE;
+
+assign z=(present_state==S3);
+
+endmodule
+```
+
+
+# OUTPUT:
+
+![Image](https://github.com/Prathosh7/VLSI-LAB-EXP-5/assets/168956572/c1737da1-3a86-4aa6-8441-ea507e908fb1)
+
+
+# RESULT:
+Thus,the simulation and synthesis of finite state machine by using vivado has been successfully excecuted and verified.
 
 
 
